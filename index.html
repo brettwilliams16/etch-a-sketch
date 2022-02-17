@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel='stylesheet' href='style.css'>
+</head>
+<body>
+    <div class='main'>
+        <h1 class='title'>Etch-a-Sketch!</h1>
+        <button class='reset'>Reset</button>
+        <div class='container'></div>
+    </div>
+    
+    <script>
+        const container = document.querySelector('.container');
+        const button = document.querySelector('.reset');
+
+
+        makeGrid(16,16);
+
+        container.addEventListener('click', beginDrawing => {
+            hover();
+        });
+
+        function hover() {
+            const items = document.querySelectorAll('.item');
+            items.forEach((item) => item.addEventListener('mouseover', addColor => {
+            item.classList.add('hover');
+            }));
+        }
+
+        
+
+        function makeGrid(rows, cols) { // takes two parameters, a row and a column
+            container.style.setProperty('--grid-rows', rows);
+            container.style.setProperty('--grid-cols', cols);
+            for (i = 0; i < (rows * cols); i++)
+                {
+                    let item = document.createElement('div');
+                    item.innerText = '';
+                    container.appendChild(item).className = 'item';
+                }
+        }
+        function clearBoard() { // makes grid 0,0
+            const square = document.querySelectorAll('.item');
+            square.forEach((square) => square.parentNode.removeChild(square));
+        }
+
+        function resetBoard() { // uses clearBoard and then asks user for new borard dimensions
+            clearBoard();
+            let number = prompt("Please enter a new dimension you'd like the board to be: ");
+            while (number > 100)
+            {
+                number = prompt("Number is too big, please enter a new number: ");
+            }
+            makeGrid(number, number);
+
+        }
+
+        button.addEventListener('click', resetBoard);
+        
+
+        
+    </script>
+
+</body>
+</html>
